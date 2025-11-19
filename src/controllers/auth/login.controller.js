@@ -1,0 +1,29 @@
+import { NODE_ENV } from "../../config/env.js"
+import { loginServices } from "../../services/auth/login.service.js"
+import prisma from "../../utils/client.js"
+
+export const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body
+
+        const result = await loginServices(email, password)
+
+        const cookiesConfiguration = {
+            path: '/',
+            httpOnly: true,
+            secure: NODE_ENV === "production" || NODE_ENV === "staging",
+            sameSite: "lax",
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+        };
+
+        res.cookie('authorization', result.token, cookiesConfiguration)
+
+        res.status(200).json({
+            success: true,
+            message: `Login successfully, Welcome ${result.userData.name}`,
+            data: result.userData
+        })
+    } catch (error) {
+        next(error)
+    }
+}
