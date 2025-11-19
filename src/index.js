@@ -12,13 +12,6 @@ app.use(express.urlencoded( { extended: true}))
 
 // route
 app.use('/api/v1', routes)
-app.use('/', (req, res) => {
-    res.json({
-        "success" : true,
-        "port" : PORT,
-        "hostname" : HOSTNAME,
-    })
-})
 app.use(errorHandler)
 
 app.listen(PORT ,() => {
