@@ -13,7 +13,7 @@ export const loginServices = async (email, password) => {
             },
         })
 
-        const isPasswordMatch = bcrypt.compare(password, userData.password)
+        const isPasswordMatch = await bcrypt.compare(userData.password, password)
 
         if (!isPasswordMatch) {
             const error = new Error("email or password is incorrect")
