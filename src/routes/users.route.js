@@ -9,11 +9,11 @@ import { updateUserPassword } from '../controllers/users/updateUserPassword.cont
 
 export const userRoutes = express.Router()
 
-userRoutes.post('/', createUser)
-userRoutes.get('/:id', getUser)
-userRoutes.get('/', getUsers)
-userRoutes.patch('/:id', updateUser)
-userRoutes.patch('/:id/change-password', updateUserPassword)
-userRoutes.delete('/:id', deleteUser)
+userRoutes.post('/', isAuthenticated, createUser)
+userRoutes.get('/:id', isAuthenticated, getUser)
+userRoutes.get('/', isAuthenticated, getUsers)
+userRoutes.patch('/:id', isAuthenticated, updateUser)
+userRoutes.patch('/:id/change-password', isAuthenticated, updateUserPassword)
+userRoutes.delete('/:id', isAuthenticated, deleteUser)
 
 
