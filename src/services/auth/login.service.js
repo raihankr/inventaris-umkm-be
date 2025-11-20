@@ -11,7 +11,7 @@ export const loginServices = async (email, password) => {
         let session;
         const userData = await prisma.users.findUnique({
             where: {
-                email: email
+                email: email,
             },
             include: {
                 session: true
@@ -33,19 +33,25 @@ export const loginServices = async (email, password) => {
             throw error
         }
 
+        if (!userData.isActive) {
+            const error = new Error("Account is deleted. Please contact administrator")
+            error.statusCode = 400
+            throw error
+        }
+
         const payload = {
             id_user: userData.id_user,
             role: userData.role,
             name: userData.name,
-            id_session: userData.session?.[0].id_session || '-'
+            id_session: userData?.session?.[0]?.id_session || '-'
         }
 
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' })
 
         if (userData.session.length === 0) {
-            session = await createNewSession(userData.id_user, token, userData.role)
+            session = await createNewSession(userData.id_user, token, userData.role, true)
         } else {
-            session = await updateSession(userData.session?.[0].id_session, token, true)
+            session = await updateSession(userData?.session?.[0]?.id_session, token, true)
         }
 
         delete userData.email
