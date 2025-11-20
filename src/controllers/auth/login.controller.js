@@ -20,7 +20,7 @@ export const login = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            message: `Login successfully, Welcome ${result.userData.name}`,
+            message: `Login successfully. Welcome ${result.userData.name}`,
             data: result.userData
         })
     } catch (error) {
