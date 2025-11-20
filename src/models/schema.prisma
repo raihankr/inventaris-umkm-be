@@ -74,7 +74,7 @@ model users {
   email            String             @unique @db.VarChar(50)
   password         String             @db.VarChar()
   contact          String             @db.VarChar(50)
-  image            String             @db.Text
+  image            String?            @db.Text
   address          String             @db.Text
   role             user_role          @default(user)
   isActive         Boolean
