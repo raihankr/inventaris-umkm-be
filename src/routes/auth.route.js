@@ -6,4 +6,4 @@ import { isAuthenticated } from '../middlewares/isAuthenticated.middleware.js'
 export const authRoutes = express.Router()
 
 authRoutes.post('/login', login)
-authRoutes.get('/logout', logout)
+authRoutes.get('/logout', isAuthenticated, logout)

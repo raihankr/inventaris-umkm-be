@@ -7,5 +7,6 @@ export const {
     HOSTNAME,
     DATABASE_URL,
     JWT_SECRET,
-    NODE_ENV
+    NODE_ENV,
+    FRONTEND_URL
 } = process.env
