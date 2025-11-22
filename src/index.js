@@ -12,7 +12,7 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded( { extended: true}))
-app.use(cors({ origin: FRONTEND_URL?.split(",") }))
+app.use(cors({ origin: FRONTEND_URL == "*" ? "*" : FRONTEND_URL?.split(",") }))
 
 // route
 app.use('/api/v1', routes)
