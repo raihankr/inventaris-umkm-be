@@ -1,6 +1,5 @@
 import { NODE_ENV } from "../../config/env.js"
 import { loginServices } from "../../services/auth/login.service.js"
-import prisma from "../../utils/client.js"
 
 export const login = async (req, res, next) => {
     try {

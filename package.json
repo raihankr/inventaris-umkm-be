@@ -9,10 +9,6 @@
   "scripts": {
     "dev": "nodemon ./src/index.js"
   },
-  "prisma": {
-    "schema": "./src/models/schema.prisma",
-    "seed": "./src/seeder/seed.js"
-  },
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",

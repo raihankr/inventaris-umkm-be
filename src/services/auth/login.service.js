@@ -1,8 +1,7 @@
 import prisma from "../../utils/client.js"
-import bcrypt, { hash } from 'bcrypt'
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from "../../config/env.js"
-import { v4 as uuidv4 } from 'uuid';
 import { createNewSession, updateSession } from "../../utils/sessionManagement.js";
 
 

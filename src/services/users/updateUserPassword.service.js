@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 import bcrypt from 'bcrypt'
+import { Prisma } from "../../../generated/prisma/index.js"
 
 export const updateUserPasswordServices = async (userId, newPassword, validatePassword) => {
     try {
@@ -24,6 +25,12 @@ export const updateUserPasswordServices = async (userId, newPassword, validatePa
 
         return;
     } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2025') {
+                error.statusCode = 404
+                error.message = "User not found."
+            }
+        }
         throw error
     }
 }
