@@ -22,12 +22,12 @@ model products {
   id_category      String             @db.VarChar(255)
   SKU              String             @db.VarChar(255)
   name             String             @db.VarChar(50)
-  description      String?            @db.Text
-  image            String?            @db.Text
+  description      String?
+  image            String?
   isActive         Boolean
-  categories       categories         @relation(fields: [id_category], references: [id_category], onDelete: NoAction, onUpdate: NoAction, map: "products_id")
   createdAt        DateTime           @default(now()) @db.Timestamptz(0)
   updatedAt        DateTime           @updatedAt @db.Timestamptz(0)
+  categories       categories         @relation(fields: [id_category], references: [id_category], onDelete: NoAction, onUpdate: NoAction, map: "products_id")
   stocks           stocks[]
   transaction_logs transaction_logs[]
 }
@@ -35,7 +35,7 @@ model products {
 model session {
   id_session String    @id @default(uuid()) @db.VarChar(50)
   id_user    String    @db.VarChar(255)
-  token      String    @db.Text
+  token      String
   role       user_role @default(user)
   isActive   Boolean
   createdAt  DateTime  @default(now()) @db.Timestamptz(0)
@@ -61,7 +61,7 @@ model transaction_logs {
   date           DateTime         @db.Date
   price          Int
   type           transaction_type
-  description    String           @db.Text
+  description    String
   createdAt      DateTime         @default(now()) @db.Timestamptz(0)
   updatedAt      DateTime         @updatedAt @db.Timestamptz(0)
   products       products         @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
@@ -72,10 +72,10 @@ model users {
   id_user          String             @id @default(uuid()) @db.VarChar(50)
   name             String             @db.VarChar(50)
   email            String             @unique @db.VarChar(50)
-  password         String             @db.VarChar()
+  password         String             @db.VarChar
   contact          String             @db.VarChar(50)
-  image            String             @db.Text
-  address          String             @db.Text
+  image            String?
+  address          String
   role             user_role          @default(user)
   isActive         Boolean
   createdAt        DateTime           @default(now()) @db.Timestamptz(0)
