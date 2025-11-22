@@ -33,19 +33,22 @@ export const loginServices = async (email, password) => {
             throw error
         }
 
+        const sessions = Array.isArray(userData.session) ? userData.session : []
+        const currentSessionId = sessions[0]?.id_session ?? '-'
+
         const payload = {
             id_user: userData.id_user,
             role: userData.role,
             name: userData.name,
-            id_session: userData.session?.[0].id_session || '-'
+            id_session: currentSessionId
         }
 
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' })
 
-        if (userData.session.length === 0) {
+        if (sessions.length === 0) {
             session = await createNewSession(userData.id_user, token, userData.role)
         } else {
-            session = await updateSession(userData.session?.[0].id_session, token, true)
+            session = await updateSession(currentSessionId, token, true)
         }
 
         delete userData.email
