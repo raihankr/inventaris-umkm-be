@@ -12,7 +12,9 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded( { extended: true}))
-app.use(cors({ origin: FRONTEND_URL }))
+
+const corsOption = [FRONTEND_URL, 'http://localhost:5173']
+app.use(cors({ origin: corsOption }))
 
 // route
 app.use('/api/v1', routes)
