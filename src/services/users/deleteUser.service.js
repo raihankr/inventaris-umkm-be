@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 import { terminateSession } from "../../utils/sessionManagement.js";
+import { Prisma } from "../../../generated/prisma/index.js";
 
 export const deleteUserService = async (userId) => {
     try {
@@ -19,6 +20,12 @@ export const deleteUserService = async (userId) => {
 
         return result;
     } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2025') {
+                error.statusCode = 404
+                error.message = "User not found."
+            }
+        }
         throw error
     }
 }
