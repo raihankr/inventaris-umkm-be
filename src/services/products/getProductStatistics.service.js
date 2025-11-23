@@ -23,9 +23,9 @@ export const getProductStatisticsService = async () => {
         productAndStock.map((data) => {
             data.stock = Number(data.stock) ?? 0
 
-            if (data.stock >= data.minimum) {
+            if (data.stock > data.minimum) {
                 statistics.available_product += 1
-            } else if (data.stock > 0 && data.stock < data.minimum) {
+            } else if (data.stock > 0 && data.stock <= data.minimum) {
                 statistics.low_product += 1
             } else {
                 statistics.out_of_stock_product += 1
