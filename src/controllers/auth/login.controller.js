@@ -1,12 +1,11 @@
 import { NODE_ENV } from "../../config/env.js"
 import { loginServices } from "../../services/auth/login.service.js"
-import prisma from "../../utils/client.js"
 
 export const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body
+        const { username, password } = req.body
 
-        const result = await loginServices(email, password)
+        const result = await loginServices(username, password)
 
         const cookiesConfiguration = {
             path: '/',

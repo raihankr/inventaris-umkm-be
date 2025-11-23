@@ -8,22 +8,22 @@ export const createUser = async (req, res, next) => {
 
         const saltRounds = 10
         const hashPassword = bcrypt.hashSync(password, saltRounds)
-        console.log(hashPassword)
 
         const payload = {
-            name: name,
-            email: email,
+            name,
+            username,
+            email,
             password: hashPassword,
-            role: role,
-            address: address,
-            contact: contact
+            role,
+            address,
+            contact,
         }
 
         const result = await createUserService(payload)
         
         res.status(200).json({
             success: true,
-            message: `User ${name} created successfully`,
+            message: `User ${username} created successfully`,
             data: result
         })
     } catch (error) {
