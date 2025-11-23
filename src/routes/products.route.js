@@ -9,12 +9,12 @@ import { getProductStatistics } from '../controllers/products/getProductStatisti
 
 export const productRoutes = express.Router()
 
-productRoutes.get('/statistic', getProductStatistics)
+productRoutes.get('/statistic', isAuthenticated, getProductStatistics)
 productRoutes.post('/', isAuthenticated, createProduct)
-productRoutes.patch('/:id', updateProduct)
-productRoutes.delete('/:id', deleteProduct)
-productRoutes.get('/', getProducts)
-productRoutes.get('/:id', getProduct)
+productRoutes.patch('/:id', isAuthenticated, updateProduct)
+productRoutes.delete('/:id', isAuthenticated, deleteProduct)
+productRoutes.get('/', isAuthenticated, getProducts)
+productRoutes.get('/:id', isAuthenticated, getProduct)
 
 
 
