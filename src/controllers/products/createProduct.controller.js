@@ -8,15 +8,10 @@ export const createProduct = async (req, res, next) => {
         
         const result = await createProductService(payload)
 
-        const productData = {
-            ...result.productData,
-            stocks : result.stocks
-        }
-
         res.status(200).json({
             success: true,
             message: 'Product created successfully.',
-            data: productData
+            data: result
         })
     } catch (error) {
         next(error)
