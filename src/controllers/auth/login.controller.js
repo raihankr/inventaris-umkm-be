@@ -3,9 +3,9 @@ import { loginServices } from "../../services/auth/login.service.js"
 
 export const login = async (req, res, next) => {
     try {
-        const { email, password } = req.body
+        const { username, password } = req.body
 
-        const result = await loginServices(email, password)
+        const result = await loginServices(username, password)
 
         const cookiesConfiguration = {
             path: '/',

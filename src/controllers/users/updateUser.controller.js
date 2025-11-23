@@ -4,7 +4,6 @@ export const updateUser = async (req, res, next) => {
     try {
         const userId = req.params.id
         const payload = { ...req.body }
-        console.log(payload)
 
         const result = await updateUserServices(userId, payload)
 

@@ -1,12 +1,11 @@
 import prisma from "./client.js"
 
-export const createNewSession = async (userId, token, role, isActive) => {
+export const createNewSession = async (userId, token, isActive) => {
     try {
         const result = await prisma.session.create({
             data: {
                 id_user: userId,
                 token: token,
-                role: role,
                 isActive: isActive
             }
         })

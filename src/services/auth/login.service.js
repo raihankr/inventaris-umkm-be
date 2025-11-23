@@ -5,12 +5,12 @@ import { JWT_SECRET } from "../../config/env.js"
 import { createNewSession, updateSession } from "../../utils/sessionManagement.js";
 
 
-export const loginServices = async (email, password) => {
+export const loginServices = async (username, password) => {
     try {
         let session;
         const userData = await prisma.users.findUnique({
             where: {
-                email: email,
+                username: username,
             },
             include: {
                 session: true
@@ -18,16 +18,15 @@ export const loginServices = async (email, password) => {
         })
 
         if (!userData) {
-            const error = new Error("email or password is incorrect")
+            const error = new Error("Username or password is incorrect")
             error.statusCode = 400
             throw error
         }
 
         const isPasswordMatch = await bcrypt.compare(password, userData.password)
-        console.log(isPasswordMatch)
 
         if (!isPasswordMatch) {
-            const error = new Error("email or password is incorrect")
+            const error = new Error("Username or password is incorrect")
             error.statusCode = 400
             throw error
         }
@@ -40,6 +39,7 @@ export const loginServices = async (email, password) => {
 
         const payload = {
             id_user: userData.id_user,
+            email: userData.email,
             role: userData.role,
             name: userData.name,
             id_session: userData?.session?.[0]?.id_session || '-'
@@ -48,12 +48,12 @@ export const loginServices = async (email, password) => {
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' })
 
         if (userData.session.length === 0) {
-            session = await createNewSession(userData.id_user, token, userData.role, true)
+            session = await createNewSession(userData.id_user, token, true)
         } else {
             session = await updateSession(userData?.session?.[0]?.id_session, token, true)
         }
 
-        delete userData.email
+        delete userData.username
         delete userData.password
         return { userData, token, session }
     } catch (error) {

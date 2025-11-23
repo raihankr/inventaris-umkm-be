@@ -6,17 +6,12 @@ export const createUserService = async (payload) => {
     try {
         const result = await prisma.users.create({
             data: {
-                email: payload.email,
-                password: payload.password,
-                name: payload.name,
-                role: payload.role,
-                address: payload.address,
-                contact: payload.contact,
+                ...payload,
                 isActive: true,
             }
         })
 
-        const createSession = await createNewSession(result.id_user, '-', result.role, false)
+        const createSession = await createNewSession(result.id_user, '-', false)
 
         return result;
     } catch (error) {
