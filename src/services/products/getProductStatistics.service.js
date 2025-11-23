@@ -41,7 +41,7 @@ export const getProductStatisticsService = async () => {
 
         statistics.total_aset = Number(totalAset?.[0]?.total_aset)
 
-        return { statistics }
+        return statistics
     } catch (error) {
         throw error
     }
