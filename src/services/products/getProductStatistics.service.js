@@ -15,13 +15,13 @@ export const getProductStatisticsService = async () => {
         statistics.total_product = await prisma.products.count({ where: { isActive: true } })
 
         const productAndStock = await prisma.$queryRaw`
-        SELECT p.id_product,  p.minimum, SUM(s.amount) AS stock
+        SELECT p.id_product,  p.minimum, COALESCE(SUM(s.amount)) AS stock
         FROM stocks AS s
-        JOIN products AS p ON p.id_product = s.id_product WHERE p."isActive" = true
+        RIGHT JOIN products AS p ON p.id_product = s.id_product WHERE p."isActive" = true
         GROUP BY p.id_product;`
 
         productAndStock.map((data) => {
-            data.stock = Number(data.stock)
+            data.stock = Number(data.stock) ?? 0
 
             if (data.stock >= data.minimum) {
                 statistics.available_product += 1
