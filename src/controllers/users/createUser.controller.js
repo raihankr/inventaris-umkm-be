@@ -1,13 +1,14 @@
-import { createUserService } from "../../services/users/createUser.service.js"
-import prisma from "../../utils/client.js"
-import bcrypt from 'bcrypt'
+import { createUserService } from "../../services/users/createUser.service.js";
+import prisma from "../../utils/client.js";
+import bcrypt from "bcrypt";
 
 export const createUser = async (req, res, next) => {
     try {
-        const { name, email, password, role, address, contact } = req.body
+        const { name, username, email, password, role, address, contact } =
+            req.body;
 
-        const saltRounds = 10
-        const hashPassword = bcrypt.hashSync(password, saltRounds)
+        const saltRounds = 10;
+        const hashPassword = bcrypt.hashSync(password, saltRounds);
 
         const payload = {
             name,
@@ -17,16 +18,16 @@ export const createUser = async (req, res, next) => {
             role,
             address,
             contact,
-        }
+        };
 
-        const result = await createUserService(payload)
-        
+        const result = await createUserService(payload);
+
         res.status(200).json({
             success: true,
             message: `User ${username} created successfully`,
-            data: result
-        })
+            data: result,
+        });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};

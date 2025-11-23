@@ -31,7 +31,7 @@ model products {
   updatedAt        DateTime           @updatedAt @db.Timestamptz(0)
   categories       categories         @relation(fields: [id_category], references: [id_category], onDelete: NoAction, onUpdate: NoAction, map: "products_id")
   stocks           stocks[]
-  transaction_logs transaction_logs[]
+  transactions     transaction_items[]
 }
 
 model session {
@@ -55,19 +55,27 @@ model stocks {
   products   products @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
 }
 
-model transaction_logs {
+model transactions {
   id_transaction String           @id @default(uuid()) @db.VarChar(50)
   id_user        String           @db.VarChar(255)
-  id_product     String           @db.VarChar(255)
-  amount         Int
   date           DateTime         @db.Date
-  price          Int
   type           transaction_type
-  description    String
+  description    String?
+  total_price    Int
   createdAt      DateTime         @default(now()) @db.Timestamptz(0)
   updatedAt      DateTime         @updatedAt @db.Timestamptz(0)
-  products       products         @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
+  items          transaction_items[]
   users          users            @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "id_user")
+}
+
+model transaction_items {
+  id_trx_item    Int              @id @default(autoincrement())
+  id_transaction String           @db.VarChar(50)
+  id_product     String           @db.VarChar(255)
+  amount         Int
+  price          Int
+  transaction    transactions     @relation(fields: [id_transaction], references: [id_transaction], onDelete: NoAction, onUpdate: NoAction, map: "id_transaction")
+  product        products         @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
 }
 
 model users {
@@ -84,7 +92,7 @@ model users {
   createdAt        DateTime           @default(now()) @db.Timestamptz(0)
   updatedAt        DateTime           @default(now()) @updatedAt @db.Timestamptz(0)
   session          session[]
-  transaction_logs transaction_logs[]
+  transactions     transactions[]
 }
 
 enum transaction_type {
