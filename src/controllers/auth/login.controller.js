@@ -1,4 +1,4 @@
-import { NODE_ENV } from "../../config/env.js"
+import { NODE_ENV, FRONTEND_DOMAIN } from "../../config/env.js"
 import { loginServices } from "../../services/auth/login.service.js"
 
 export const login = async (req, res, next) => {
@@ -6,7 +6,9 @@ export const login = async (req, res, next) => {
         const { username, password } = req.body
 
         const result = await loginServices(username, password)
+        result.userData.session = result.session
 
+        const cookiesDomain = NODE_ENV === "staging" || NODE_ENV === "production" ? FRONTEND_DOMAIN : undefined 
         const cookiesConfiguration = {
             path: '/',
             httpOnly: true,
@@ -14,6 +16,10 @@ export const login = async (req, res, next) => {
             sameSite: "none",
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
         };
+
+        if (cookiesDomain) {
+            cookiesConfiguration.domain = cookiesDomain
+        }
 
         res.cookie('authorization', result.token, cookiesConfiguration)
 
