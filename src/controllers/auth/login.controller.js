@@ -8,7 +8,9 @@ export const login = async (req, res, next) => {
         const result = await loginServices(username, password)
         result.userData.session = result.session
 
-        const cookiesDomain = NODE_ENV === "staging" || NODE_ENV === "production" ? FRONTEND_DOMAIN : undefined 
+        const cookiesDomain = NODE_ENV === "staging" || NODE_ENV === "production" ? FRONTEND_DOMAIN : undefined
+
+        console.log(NODE_ENV === "staging" || NODE_ENV === "production")
         const cookiesConfiguration = {
             path: '/',
             httpOnly: true,
@@ -22,6 +24,8 @@ export const login = async (req, res, next) => {
         }
 
         res.cookie('authorization', result.token, cookiesConfiguration)
+
+        console.log(result.token)
 
         res.status(200).json({
             success: true,

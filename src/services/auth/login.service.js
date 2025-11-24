@@ -56,7 +56,7 @@ export const loginServices = async (username, password) => {
         delete userData.username
         delete userData.password
         delete userData.session
-        return { userData, session }
+        return { userData, token, session }
     } catch (error) {
         throw error
     }
