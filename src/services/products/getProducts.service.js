@@ -41,7 +41,7 @@ export const getProductsService = async (page, limit, search, category) => {
                 }
             },
             orderBy: {
-                createdAt: 'desc'
+                updatedAtAt: 'desc'
             },
             skip: offset,
             take: limit
