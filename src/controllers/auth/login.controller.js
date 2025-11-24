@@ -15,7 +15,7 @@ export const login = async (req, res, next) => {
             path: '/',
             httpOnly: true,
             secure: NODE_ENV === "production" || NODE_ENV === "staging",
-            sameSite: "none",
+            sameSite: NODE_ENV === "development" ? "Lax" : "None",
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
         };
 
