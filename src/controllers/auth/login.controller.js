@@ -23,7 +23,7 @@ export const login = async (req, res, next) => {
             cookiesConfiguration.domain = cookiesDomain
         }
 
-        res.cookie('authorization', result.token, cookiesConfiguration)
+        res.cookie('sks-authorization', result.token, cookiesConfiguration)
 
         console.log(result.token)
 
