@@ -5,7 +5,7 @@ import { terminateSession } from '../utils/sessionManagement.js'
 
 export const isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.cookies['authorization']?.split(' ')?.[0]
+        const token = req.cookies['sks-authorization']?.split(' ')?.[0]
         const decodedToken = jwt.verify(token, JWT_SECRET)
          
         const session = await prisma.session.findUnique({
