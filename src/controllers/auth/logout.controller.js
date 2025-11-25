@@ -5,7 +5,7 @@ import { terminateSession, updateSession } from "../../utils/sessionManagement.j
 
 export const logout = async (req, res, next) => {
     try {
-        const token = req.cookies['authorization']?.split(' ')[0]
+        const token = req.cookies['sks-authorization']?.split(' ')[0]
         const decodeToken = jwt.decode(token, JWT_SECRET)
 
         const process = await logoutServices(decodeToken.id_session)

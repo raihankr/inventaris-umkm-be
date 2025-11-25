@@ -4,4 +4,4 @@ import { createTransaction } from "../controllers/transactions/createTransaction
 
 export const transactionRoutes = express.Router();
 
-transactionRoutes.post('/', isAuthenticated, createTransaction);
+transactionRoutes.post('/', createTransaction);

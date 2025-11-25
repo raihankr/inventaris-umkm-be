@@ -21,6 +21,7 @@ export const createTransactionService = async (payload) => {
                     price: item.price,
                 },
                 select: {
+                    id_stock: true,
                     amount: true,
                 },
             });
@@ -39,26 +40,32 @@ export const createTransactionService = async (payload) => {
             } else if (!stock) continue;
 
             stocks[item.id_product] = {
-                [item.price]: stock.amount,
+                [item.price]: {
+                    amount: stock.amount,
+                    id_stock: stock.id_stock,
+                },
             };
         }
 
         let total_price = 0;
 
-        for (let item in items) {
+        for (let item of items) {
             // update stok
 
             let subtotal = item.amount * item.price;
             total_price += subtotal;
+            const stockData = stocks[item.id_product]?.[item.price];
 
             await prisma.stocks.upsert({
                 where: {
-                    id_product: item.id_product,
-                    price: item.price,
+                    product_price: {
+                        id_product: item.id_product,
+                        price: item.price,
+                    },
                 },
                 update: {
                     amount:
-                        stocks[item.id_product]?.[item.price] +
+                        (stockData?.amount || 0) +
                         (type == transaction_type.buy
                             ? item.amount
                             : -item.amount),
