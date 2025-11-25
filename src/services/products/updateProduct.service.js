@@ -13,7 +13,8 @@ export const updateProductService = async (productId, payload) => {
                 description: payload.description,
                 unit: payload.unit,
                 id_category: payload.id_category,
-                minimum: payload.stock_minimum
+                minimum: payload.stock_minimum,
+                image: payload.image
             }
         })
 
