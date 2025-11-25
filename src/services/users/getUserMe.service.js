@@ -7,14 +7,6 @@ export const getUserMeService = async (userId) => {
                 id_user: userId,
                 isActive: true
             },
-            include: {
-                session: {
-                    take: 1,
-                    orderBy: {
-                        updatedAt: "desc"
-                    }
-                },   
-            }
         })
 
         if (!userData) {

@@ -10,7 +10,7 @@ datasource db {
 
 model categories {
   id_category String     @id @default(uuid()) @db.VarChar(50)
-  name        String     @db.VarChar(100)
+  name        String     @db.VarChar(100) @unique
   description String?
   isActive    Boolean    @default(true)
   createdAt   DateTime   @default(now()) @db.Timestamptz(0)
@@ -54,12 +54,12 @@ model stocks {
   createdAt  DateTime @default(now()) @db.Timestamptz(0)
   updatedAt  DateTime @updatedAt @db.Timestamptz(0)
   products   products @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
+  @@unique([id_product, price], name: "product_price")
 }
 
 model transactions {
   id_transaction String           @id @default(uuid()) @db.VarChar(50)
   id_user        String           @db.VarChar(255)
-  date           DateTime         @db.Date
   type           transaction_type
   description    String?
   total_price    Int

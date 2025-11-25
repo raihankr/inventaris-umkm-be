@@ -10,6 +10,6 @@ export const routes = express.Router()
 
 routes.use('/auth', authRoutes)
 routes.use('/products', isAuthenticated, productRoutes)
-routes.use('/categories', categoryRoutes)
+routes.use('/categories', isAuthenticated, categoryRoutes)
 routes.use('/users', isAuthenticated, userRoutes)
-routes.use('/transactions', transactionRoutes)
+routes.use('/transactions', isAuthenticated, transactionRoutes)
