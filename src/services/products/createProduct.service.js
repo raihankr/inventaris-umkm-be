@@ -21,6 +21,9 @@ export const createProductService = async (payload) => {
             if (error.code === 'P2002') {
                 error.statusCode = 400
                 error.message = "The provided SKU product is already used."
+            } else if(error.code === 'P2003') {
+                error.statusCode = 404
+                error.message = 'The provided category is not found.'
             }
         }
 

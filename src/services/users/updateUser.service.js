@@ -15,7 +15,8 @@ export const updateUserServices = async (userId, payload) => {
                 name: payload.name,
                 email: payload.email,
                 address: payload.address,
-                contact: payload.contact
+                contact: payload.contact,
+                image: payload.image
             }
         })
 
