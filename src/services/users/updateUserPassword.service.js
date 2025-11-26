@@ -2,7 +2,7 @@ import prisma from "../../utils/client.js"
 import bcrypt from 'bcrypt'
 import { Prisma } from "../../../generated/prisma/index.js"
 
-export const updateUserPasswordServices = async (userId, newPassword, validatePassword) => {
+export const updateUserPasswordServices = async (userId, newPassword, validatePassword, username) => {
     try {
         if (newPassword !== validatePassword) {
             const error = new Error("The passwords you entered do not match. Please try again.")
@@ -19,7 +19,8 @@ export const updateUserPasswordServices = async (userId, newPassword, validatePa
                 isActive: true
             },
             data: {
-                password: hashPassword
+                password: hashPassword,
+                username: username
             }
         });
 
