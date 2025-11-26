@@ -9,12 +9,12 @@ import { getUserMe } from '../controllers/users/getUserMe.controller.js'
 
 export const userRoutes = express.Router()
 
+userRoutes.patch('/change-password', updateUserPassword)
 userRoutes.get('/me', getUserMe)
 userRoutes.post('/', createUser)
 userRoutes.get('/:id', getUser)
 userRoutes.get('/', getUsers)
 userRoutes.patch('/:id', updateUser)
-userRoutes.patch('/:id/change-password', updateUserPassword)
 userRoutes.delete('/:id', deleteUser)
 
 
