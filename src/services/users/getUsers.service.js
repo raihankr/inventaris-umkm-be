@@ -13,7 +13,7 @@ export const getUsersServices = async (page, limit) => {
                 isActive: true
             },
             orderBy: {
-                updatedAtAt: "desc"
+                updatedAt: "desc"
             },
             include: {
                 session: true
