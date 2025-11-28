@@ -50,7 +50,7 @@ async function main() {
   if (!process.env.USER_PW_PREFIX)
     throw new Error("Missing USER_PW_PREFIX on environment");
 
-  for (let i = 1; i <= 2; i++) {
+  for (let i = 1; i <= 10; i++) {
     const user = await prisma.users.upsert({
       where: { username: `user-${i}` },
       update: {},

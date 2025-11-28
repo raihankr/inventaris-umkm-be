@@ -9,7 +9,7 @@ import { dashboardRoutes } from './dashboard.route.js'
 
 export const routes = express.Router()
 
-routes.use('/dahsboard', isAuthenticated, dashboardRoutes)
+routes.use('/dashboard', isAuthenticated, dashboardRoutes)
 routes.use('/auth', authRoutes)
 routes.use('/products', isAuthenticated, productRoutes)
 routes.use('/categories', isAuthenticated, categoryRoutes)
