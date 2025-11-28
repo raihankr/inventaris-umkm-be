@@ -19,7 +19,6 @@ export const getUsersServices = async (page, limit) => {
                 session: true
             },
             omit: {
-                email: true,
                 password: true
             },
             take: limit,
