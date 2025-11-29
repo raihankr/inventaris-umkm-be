@@ -2,9 +2,21 @@ import prisma from "../../utils/client.js"
 import bcrypt from 'bcrypt'
 import { Prisma } from "../../../generated/prisma/index.js"
 
-export const updateUserPasswordServices = async (userId, newPassword, validatePassword, username) => {
+export const updateUserPasswordServices = async (userId, currentPassword, newPassword, validatePassword, username) => {
     try {
-        if (newPassword !== validatePassword) {
+        const userData = await prisma.users.findUnique({
+            where: {
+                id_user: userId,
+                isActive: true
+            },
+            select :{
+                password: true
+            }
+        })
+
+        const isPasswordMatch = bcrypt.compare(currentPassword, userData.password)
+
+        if (newPassword !== validatePassword || !isPasswordMatch) {
             const error = new Error("The passwords you entered do not match. Please try again.")
             error.statusCode = 400
             throw error

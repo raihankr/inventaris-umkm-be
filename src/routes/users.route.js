@@ -6,16 +6,20 @@ import { getUsers } from '../controllers/users/getUsers.controller.js'
 import { updateUser } from '../controllers/users/updateUser.controller.js'
 import { updateUserPassword } from '../controllers/users/updateUserPassword.controller.js'
 import { getUserMe } from '../controllers/users/getUserMe.controller.js'
+import { checkRole } from '../middlewares/checkRole.middleware.js'
+import { resetPassword } from '../controllers/users/resetPassword.controller.js'
 
 export const userRoutes = express.Router()
 
+userRoutes.patch('/:id/reset-password', checkRole('admin'), resetPassword)
 userRoutes.patch('/change-password', updateUserPassword)
 userRoutes.get('/me', getUserMe)
-userRoutes.post('/', createUser)
-userRoutes.get('/:id', getUser)
-userRoutes.get('/', getUsers)
+userRoutes.post('/', checkRole('admin'), createUser)
+userRoutes.get('/:id', checkRole('admin'), getUser)
+userRoutes.get('/', checkRole('admin'),getUsers)
 userRoutes.patch('/:id', updateUser)
-userRoutes.delete('/:id', deleteUser)
+userRoutes.delete('/:id', checkRole('admin'), deleteUser)
+
 
 
 
