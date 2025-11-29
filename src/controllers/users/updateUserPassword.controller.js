@@ -4,13 +4,13 @@ import jwt from 'jsonwebtoken'
 
 export const updateUserPassword = async (req, res, next) => {
     try {
-        const { new_password, validate_password, username } = req.body
+        const { current_password, new_password, validate_password, username } = req.body
 
         const token = req.cookies['sks-authorization']
         const decodedToken = jwt.verify(token, JWT_SECRET)
         const userId = decodedToken?.id_user
 
-        const process = await updateUserPasswordServices(userId, new_password, validate_password, username)
+        const process = await updateUserPasswordServices(userId, current_password, new_password, validate_password, username)
 
         res.status(200).json({
             success: true,
