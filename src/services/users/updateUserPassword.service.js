@@ -14,7 +14,7 @@ export const updateUserPasswordServices = async (userId, currentPassword, newPas
             }
         })
 
-        const isPasswordMatch = bcrypt.compare(currentPassword, userData.password)
+        const isPasswordMatch = bcrypt.compareSync(currentPassword, userData.password)
 
         if (newPassword !== validatePassword || !isPasswordMatch) {
             const error = new Error("The passwords you entered do not match. Please try again.")
