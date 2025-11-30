@@ -12,6 +12,7 @@ export const updateUserServices = async (userId, payload) => {
                 email: true
             },
             data: {
+                username: payload.username,
                 name: payload.name,
                 email: payload.email,
                 address: payload.address,
