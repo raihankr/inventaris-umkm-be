@@ -2,7 +2,7 @@ import prisma from "../../utils/client.js"
 import { formatPagination } from "../../utils/formatPagination.js"
 import { calculateElapsedTimeHours, formatTime } from "../../utils/time.js"
 
-export const getUsersServices = async (page, limit) => {
+export const getUsersServices = async (page, limit, search) => {
     try {
         const offset = (page - 1) * limit
 
@@ -10,7 +10,12 @@ export const getUsersServices = async (page, limit) => {
 
         const usersData = await prisma.users.findMany({
             where: {
-                isActive: true
+                isActive: true,
+                OR: [
+                    { username: { contains: search } },
+                    { name: { contains: search }},
+                    { email: { contains: search }},
+                ]
             },
             orderBy: {
                 updatedAt: "desc"
@@ -24,6 +29,8 @@ export const getUsersServices = async (page, limit) => {
             take: limit,
             skip: offset || undefined
         })
+
+        console.log("Search:", search);
 
         const checkUsersSession = (data) => {
             if (data?.session?.[0]?.isActive) {

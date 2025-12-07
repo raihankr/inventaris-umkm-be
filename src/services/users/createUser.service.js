@@ -18,7 +18,8 @@ export const createUserService = async (payload) => {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             if (error.code === 'P2002') {
                 error.statusCode = 400
-                error.message = "The provided email is already used."
+                error.message = `${error.meta.target} sudah digunakan`
+                error.cause = error.meta.target
             }
         }
 
