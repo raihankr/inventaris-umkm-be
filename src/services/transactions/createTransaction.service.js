@@ -1,8 +1,8 @@
 import prisma from "../../utils/client.js";
 import { Prisma, transaction_type } from "../../../generated/prisma/index.js";
 
-export const createTransactionService = async (payload) => {
-    let { type, items, description, id_user } = payload;
+export const createTransactionService = async (payload, seed = false) => {
+    let { type, items, description, id_user, date } = payload;
 
     // sanitasi input items untuk menghindari properti yang tidak diharapkan
     items = items.map((item) => ({
@@ -49,6 +49,7 @@ export const createTransactionService = async (payload) => {
 
         let total_price = 0;
 
+        const createStocks = [];
         for (let item of items) {
             // update stok
 
@@ -56,7 +57,7 @@ export const createTransactionService = async (payload) => {
             total_price += subtotal;
             const stockData = stocks[item.id_product]?.[item.price];
 
-            await prisma.stocks.upsert({
+            const createStock = prisma.stocks.upsert({
                 where: {
                     product_price: {
                         id_product: item.id_product,
@@ -76,10 +77,12 @@ export const createTransactionService = async (payload) => {
                     amount: item.amount,
                 },
             });
+
+            createStocks.push(createStock);
         }
 
         // catat transaksi
-        const result = await prisma.transactions.create({
+        const createTransaction = prisma.transactions.create({
             data: {
                 type,
                 description,
@@ -90,10 +93,18 @@ export const createTransactionService = async (payload) => {
                     },
                 },
                 total_price,
+                createdAt: seed ? date : null,
             },
         });
 
-        return result;
+        const result = await prisma.$transaction([
+            ...createStocks,
+            createTransaction,
+        ]);
+
+        const transactionResult = result.slice(-1);
+
+        return transactionResult;
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             // error handling
