@@ -49,7 +49,7 @@ export const getProductsService = async (page, limit, search, category) => {
         
         productsData.map((data) => {
             data.total_stock = data.stocks?.reduce((sum, value) => sum + value.amount, 0)
-            data.categories = data?.categories.name
+            data.categories = data?.categories?.name || 'uncategorized'
             data.status = data.total_stock === 0 ? 'Habis' : data.total_stock < data.minimum ? 'Stok Menipis' :  'Tersedia'
         })
 

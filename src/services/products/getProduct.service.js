@@ -24,7 +24,7 @@ export const getProductService = async (productId) => {
             throw error
         }
 
-        productData.categories = productData.categories?.name
+        productData.categories = productData.categories?.name || 'uncategorized'
         return productData
     } catch (error) {
         throw error
