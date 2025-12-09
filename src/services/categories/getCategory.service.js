@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 
+// mengambil satu data category berdasarkan id
 export const getCategoryService = async (categoryId) => {
     try {
         const categoryData = await prisma.categories.findUnique({

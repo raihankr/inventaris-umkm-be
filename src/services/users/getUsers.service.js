@@ -2,6 +2,13 @@ import prisma from "../../utils/client.js";
 import { formatPagination } from "../../utils/formatPagination.js";
 import { calculateElapsedTimeHours, formatTime } from "../../utils/time.js";
 
+/**
+ * Mengambil data user dengan mengimplementasikan pagination dan fitur search
+ * @param {*} page 
+ * @param {*} limit 
+ * @param {*} search 
+ * @returns 
+ */
 export const getUsersServices = async (page, limit, search) => {
     try {
         const offset = (page - 1) * limit;

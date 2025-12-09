@@ -1,6 +1,15 @@
 import { stat } from "fs";
 import prisma from "../../utils/client.js"
 
+/**
+ * Service dibawah ini mengembalikan statistik terkait data product
+ * - total product
+ * - product yang masih tersedia
+ * - product yang stocknya menipis
+ * - product yang stocknya habis
+ * - total harga barang hasil kalkulasi stock dan stock price
+ * @returns 
+ */
 export const getProductStatisticsService = async () => {
     try {
 

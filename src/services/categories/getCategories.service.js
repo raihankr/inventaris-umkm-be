@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 
+// mengambil semua data category yang tidak dihapus
 export const getCategoriesService = async () => {
     try {
         const categoriesData = await prisma.categories.findMany({

@@ -1,5 +1,6 @@
 import prisma from "./client.js"
 
+// membuat data sesi user baru
 export const createNewSession = async (userId, token, isActive) => {
     try {
         const result = await prisma.session.create({
@@ -16,6 +17,8 @@ export const createNewSession = async (userId, token, isActive) => {
     }
 }
 
+
+// memperbarui data sesi user
 export const updateSession = async (sessionId, token, isActive) => {
     try {
         const result = await prisma.session.update({
@@ -35,6 +38,7 @@ export const updateSession = async (sessionId, token, isActive) => {
 
 }
 
+// menonaktifkan sesi user
 export const terminateSession = async (sessionId, isActive) => {
     try {
         const result = await prisma.session.update({

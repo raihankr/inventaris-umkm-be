@@ -8,10 +8,12 @@ import cors from 'cors'
 
 const app = express()
 
-app.use(morgan('dev'))
+app.use(morgan('dev')) // log semua request yg masuk
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded( { extended: true}))
+
+// bypass cors browser untuk origin yang ditentukan
 app.use(cors({ origin: FRONTEND_URL == "*" ? "*" : FRONTEND_URL?.split(","), credentials: true }))
 
 // route

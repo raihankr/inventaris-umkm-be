@@ -11,7 +11,7 @@ export const getLowStockProductsService = async (page, limit) => {
 
            note: count over pada query tertinggi berguna untuk mendapatkan jumlah data yg terfilter
                  dan menyimpannya disetiap data. Maka dari itu dihapus menggunakan method map agar setiap data
-                 tidak memiliki column baru tersebut. begitu ygy
+                 tidak memiliki column baru tersebut.
         */
         const lowStockProducts = await prisma.$queryRaw`
         SELECT *, COALESCE(CAST(COUNT(*) OVER() AS INT), 0) AS total_low_stock FROM (

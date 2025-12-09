@@ -1,6 +1,7 @@
 import prisma from "../../utils/client.js"
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// menyimpan data categori baru
 export const createCategoryService = async (name, description) => {
     try {
         const categoryData = await prisma.categories.create({

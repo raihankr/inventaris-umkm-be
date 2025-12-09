@@ -4,6 +4,7 @@ import { Prisma } from "../../../generated/prisma/index.js";
 
 export const createUserService = async (payload) => {
     try {
+        // menyimpan data user baru
         const result = await prisma.users.create({
             data: {
                 ...payload,
@@ -11,6 +12,7 @@ export const createUserService = async (payload) => {
             }
         })
 
+        // membuat data sesi user
         const createSession = await createNewSession(result.id_user, '-', false)
 
         return result;

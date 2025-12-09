@@ -2,6 +2,8 @@ import prisma from "../../utils/client.js"
 
 export const getRecentTransactionService = async () => {
     try {
+        // mengambil lima (5) data transaksi sekaligus dengan item di dalam transaksi tersebut dan
+        // pengguna yang mencatat transaksi.
         const transactionData = await prisma.transactions.findMany({
             orderBy: {
                 createdAt: "desc"

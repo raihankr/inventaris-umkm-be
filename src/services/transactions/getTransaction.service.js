@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js";
 
+// mengambil satu data transaksi
 export const getTransactionService = async (id_transaction) => {
     try {
         const trxData = await prisma.transactions.findUnique({
