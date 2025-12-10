@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend Inventaris UMKM",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "./src/index.js",
+  "scripts": {
+    "dev": "nodemon ./src/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.11",
+    "prisma": "^6.19.0",
+    "uuid": "^13.0.0"
+  }
+}

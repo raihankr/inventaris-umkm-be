@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id_category String     @id @default(uuid()) @db.VarChar(50)
+  name        String     @db.VarChar(100) @unique
+  description String?
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now()) @db.Timestamptz(0)
+  updatedAt   DateTime   @updatedAt @db.Timestamptz(0)
+  products    products[]
+}
+
+model products {
+  id_product       String             @id @default(uuid()) @db.VarChar(50)
+  id_category      String?            @db.VarChar(255)
+  SKU              String             @unique @db.VarChar(255)
+  name             String             @db.VarChar(50)
+  description      String?
+  image            String?
+  unit             String             @default("pcs") @db.VarChar(50)
+  minimum          Int                @default(0)
+  isActive         Boolean
+  createdAt        DateTime           @default(now()) @db.Timestamptz(0)
+  updatedAt        DateTime           @updatedAt @db.Timestamptz(0)
+  categories       categories?         @relation(fields: [id_category], references: [id_category], onDelete: NoAction, onUpdate: NoAction, map: "products_id")
+  stocks           stocks[]
+  transactions     transaction_items[]
+}
+
+model session {
+  id_session String    @id @default(uuid()) @db.VarChar(50)
+  id_user    String    @db.VarChar(255)
+  token      String
+  isActive   Boolean
+  createdAt  DateTime  @default(now()) @db.Timestamptz(0)
+  updatedAt  DateTime  @updatedAt @db.Timestamptz(0)
+  users      users     @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "fk_session_user")
+}
+
+model stocks {
+  id_stock   String   @id @default(uuid()) @db.VarChar(50)
+  id_product String   @db.VarChar(255)
+  amount     Int
+  price      Int
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(0)
+  products   products @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
+  @@unique([id_product, price], name: "product_price")
+}
+
+model transactions {
+  id_transaction String           @id @default(uuid()) @db.VarChar(50)
+  id_user        String           @db.VarChar(255)
+  type           transaction_type
+  description    String?
+  total_price    Int
+  createdAt      DateTime         @default(now()) @db.Timestamptz(0)
+  updatedAt      DateTime         @updatedAt @db.Timestamptz(0)
+  items          transaction_items[]
+  users          users            @relation(fields: [id_user], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "id_user")
+}
+
+model transaction_items {
+  id_trx_item    Int              @id @default(autoincrement())
+  id_transaction String           @db.VarChar(50)
+  id_product     String           @db.VarChar(255)
+  amount         Int
+  price          Int
+  transaction    transactions     @relation(fields: [id_transaction], references: [id_transaction], onDelete: NoAction, onUpdate: NoAction, map: "id_transaction")
+  product        products         @relation(fields: [id_product], references: [id_product], onDelete: NoAction, onUpdate: NoAction, map: "id_product")
+}
+
+model users {
+  id_user          String             @id @default(uuid()) @db.VarChar(50)
+  name             String             @db.VarChar(50)
+  username         String             @unique @db.VarChar(50)
+  email            String?            @unique @db.VarChar(50)
+  password         String             @db.VarChar
+  contact          String?            @db.VarChar(50)
+  image            String?
+  address          String?
+  role             user_role          @default(user)
+  isActive         Boolean
+  createdAt        DateTime           @default(now()) @db.Timestamptz(0)
+  updatedAt        DateTime           @default(now()) @updatedAt @db.Timestamptz(0)
+  session          session[]
+  transactions     transactions[]
+}
+
+enum transaction_type {
+  buy
+  sell
+}
+
+enum user_role {
+  user
+  admin
+}
