@@ -1,3 +1,4 @@
+// memformat data agar sesuai dengan standar format pagination
 export const formatPagination = (data, totalData, limit, page) => {
     return {
         page: page,

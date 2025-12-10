@@ -30,3 +30,10 @@ atau jika tidak ingin data yang sudah ada sebelumnya terhapus, gunakan command
 ```bash
 npx prisma db push
 ```
+
+Structure Folder
+1. Routes: berfungsi sebagai tempat menyimpan route/endpoint resources
+2. Controllers: Menerima request dan mengirim response
+3. Services: folder utama yang bertugas untuk menyimpan logika utama dalam suatu proses dan mengakses database
+4. utils: kumpulan proses kecil yang dapat digunakan berulang kali
+5. seeder: mengisi database dengan data awal atau data dummy

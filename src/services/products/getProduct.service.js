@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 
+// mengambil data product berdasarkan id
 export const getProductService = async (productId) => {
     try {
         const productData = await prisma.products.findUnique({

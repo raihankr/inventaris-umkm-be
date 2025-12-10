@@ -1,3 +1,4 @@
+// format waktu '1h 1m'
 export const formatTime = (time) => {
     const parsedTime = time.toString().split('.')
 
@@ -13,6 +14,7 @@ export const formatTime = (time) => {
     return formatedTime
 }
 
+// mengkalkulasi total waktu yang telah berlalu dari parameter date hingga saat ini
 export const calculateElapsedTimeHours = (date) => {
     const startDate = new Date(date)
     const now = new Date();

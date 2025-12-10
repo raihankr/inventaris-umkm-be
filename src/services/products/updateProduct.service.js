@@ -1,6 +1,7 @@
 import prisma from "../../utils/client.js"
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// memperbarui data product berdasrkan id
 export const updateProductService = async (productId, payload) => {
     try {
         const productData = await prisma.products.update({

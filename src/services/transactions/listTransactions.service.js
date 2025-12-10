@@ -1,6 +1,15 @@
 import prisma from "../../utils/client.js";
 import { formatPagination } from "../../utils/formatPagination.js";
 
+/**
+ * Mengambil seluruh data transaksi dengan mengimplementasikan fitur pagination dan filter
+ * @param {*} page 
+ * @param {*} limit 
+ * @param {*} product 
+ * @param {*} user 
+ * @param {*} type 
+ * @returns 
+ */
 export const listTransactionsService = async (
     page,
     limit,

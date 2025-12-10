@@ -7,6 +7,7 @@ export const createUser = async (req, res, next) => {
         const { name, username, email, password, role, address, contact } =
             req.body;
 
+        // menyimpan password yang dienkripsi
         const saltRounds = 10;
         const hashPassword = bcrypt.hashSync(password, saltRounds);
 

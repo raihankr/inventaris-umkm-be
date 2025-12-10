@@ -2,6 +2,7 @@ import prisma from "../../utils/client.js"
 import bcrypt from 'bcrypt'
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// memperbarui password user yang login
 export const updateUserPasswordServices = async (userId, currentPassword, newPassword, validatePassword, username) => {
     try {
         const userData = await prisma.users.findUnique({
@@ -14,6 +15,7 @@ export const updateUserPasswordServices = async (userId, currentPassword, newPas
             }
         })
 
+        // validasi jika password sebelumnya sama dengan password baru
         const isPasswordMatch = bcrypt.compareSync(currentPassword, userData.password)
 
         if (newPassword !== validatePassword || !isPasswordMatch) {
@@ -22,6 +24,7 @@ export const updateUserPasswordServices = async (userId, currentPassword, newPas
             throw error
         };
 
+        // menyimpan password yang telah dienkripsi
         const saltRound = 10;
         const hashPassword = bcrypt.hashSync(newPassword, saltRound);
 

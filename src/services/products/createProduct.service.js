@@ -1,6 +1,7 @@
 import prisma from "../../utils/client.js"
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// menyimpan data produk baru
 export const createProductService = async (payload) => {
     try {
         const productData = await prisma.products.create({

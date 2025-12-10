@@ -18,6 +18,7 @@ export const logout = async (req, res, next) => {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
         };
 
+        // menghapus cookies user
         res.clearCookie('sks-authorization', cookiesConfiguration)
 
         res.status(200).json({

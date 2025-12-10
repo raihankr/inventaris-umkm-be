@@ -1,6 +1,7 @@
 import prisma from "../../utils/client.js"
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// menghapus data categori menggunakan pendekatan soft delete
 export const deleteCategoryService = async (categoryId) => {
     try {
         const categoryData = await prisma.categories.update({

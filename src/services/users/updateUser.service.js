@@ -1,6 +1,7 @@
 import { Prisma } from "../../../generated/prisma/index.js"
 import prisma from "../../utils/client.js"
 
+// memperbarui data user
 export const updateUserServices = async (userId, payload) => {
     try {
         const updatedUser = await prisma.users.update({

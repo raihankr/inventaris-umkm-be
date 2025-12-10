@@ -5,19 +5,22 @@ export const getStatistics = async () => {
   const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
   const endDate = new Date(`${year}-12-31T23:59:59.999Z`);
 
+  // mengambil total data products yang masih aktif (tidak dihapus)
   const totalProducts = prisma.products.count({
     where: {
       isActive: true,
     },
   });
 
+  // mengkalkulasi total asset berdasarkan stock yg masih tersedia dan harga masing-masing stock
   const totalAssetValue = prisma.$queryRaw`
     SELECT SUM(CAST(stocks.amount AS BIGINT) * CAST(stocks.price AS BIGINT)) as "totalAssetValue"
     FROM stocks
     WHERE stocks."isActive" = true
   `;
 
-  const transactions =await prisma.transactions.groupBy({
+  // mengkalkulasi total harga transaksi berdasarkan tipe (sell dan buy)
+  const transactions = await prisma.transactions.groupBy({
     by: ['type'],
     where: {
       createdAt: {

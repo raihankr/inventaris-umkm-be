@@ -2,8 +2,10 @@ import prisma from "../../utils/client.js"
 import { terminateSession } from "../../utils/sessionManagement.js";
 import { Prisma } from "../../../generated/prisma/index.js";
 
+
 export const deleteUserService = async (userId) => {
     try {
+        // menghapus data user dengan pendekatan soft delete
         const result = await prisma.users.update({
             where: {
                 id_user: userId

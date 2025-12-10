@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import prisma from '../../utils/client.js'
 import { Prisma } from '../../../generated/prisma/index.js'
 
+// memperbarui password user
 export const resetPasswordService = async (userId, newPassword) => {
     try {
         const saltRound = 10

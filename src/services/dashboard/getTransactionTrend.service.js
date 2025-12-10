@@ -22,10 +22,13 @@ export const getTransactionTrendService = async (period) => {
         const currentYear = todayDate.getFullYear()
         const currentMonth = todayDate.getMonth()
 
+        // konfigurasi tanggal mulai dan akhir berdasarkan jenis periode yang dipilih
         let startDate = new Date(currentYear, trendPeriod == 12 ? 0 : currentMonth - (trendPeriod - 1), 1);
         let endDate = new Date(currentYear, trendPeriod == 12 ? 12 : currentMonth + 1, 0, 23, 59, 59, 999);
 
         const transactionTrendData = await prisma.$queryRaw`
+        -- 3 CTE dibawah berisikan temporary table yang berfungsi sebagai template data
+
         -- CTE dibawah berisikan temporary set data semua rentang tanggal berdasarkan time dimension
         WITH date_filter AS (
             SELECT GENERATE_SERIES(
@@ -48,6 +51,10 @@ export const getTransactionTrendService = async (period) => {
         dt_merge AS ( SELECT * FROM date_filter
         CROSS JOIN trx_type )
 
+
+        -- Inner query dibawah ini menggabungkan dua table yaitu transactions dan stocks kemudian di 
+        -- group by berdasarkan tanggal dan type (sell dan buy). Setelah itu, outer query akan mengkalkulasi
+        -- total transaksi berdasarkan tipe dan menggabungkannya menjadi satu row data berdasarkan tanggal.
         SELECT 
             dt_merge.date_period, 
             COALESCE(SUM(CASE WHEN data.type = 'sell' THEN data.total ELSE 0 END)::int, 0) AS total_sell,
@@ -71,6 +78,7 @@ export const getTransactionTrendService = async (period) => {
         GROUP BY dt_merge.date_period
         ORDER BY dt_merge.date_period`
 
+        // format tanggal 'DD-MM-YYYY'
         const month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
 
         transactionTrendData.map((data) => {

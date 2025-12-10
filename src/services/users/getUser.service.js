@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 
+// mengambil data user berdasarkan id
 export const getUserService = async (userId) => {
     try {
         const data = await prisma.users.findUnique({

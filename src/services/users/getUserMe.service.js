@@ -1,5 +1,6 @@
 import prisma from "../../utils/client.js"
 
+// mengambil data user yang login berdasarkan token didalam cookies user
 export const getUserMeService = async (userId) => {
     try {
         const userData = await prisma.users.findUnique({

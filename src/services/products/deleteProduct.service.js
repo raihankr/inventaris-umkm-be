@@ -1,6 +1,8 @@
 import prisma from "../../utils/client.js"
 import { Prisma } from "../../../generated/prisma/index.js"
 
+// menghapus data product menggunakan pendekatan soft delete dan juga
+// menghapus data stock terkait product tersebut
 export const deleteProductService = async (productId) => {
     try {
         const productData = await prisma.products.update({
