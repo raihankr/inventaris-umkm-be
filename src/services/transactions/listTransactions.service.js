@@ -21,8 +21,8 @@ export const listTransactionsService = async (
         const offset = (page - 1) * limit;
 
         const whereClause = {
-            id_user: user,
-            type,
+            id_user: user || undefined,
+            type: type || undefined,
             items: {
                 some: {
                     id_product: product || undefined,
