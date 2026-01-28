@@ -6,6 +6,8 @@ import errorHandler from './middlewares/errorHandler.middlewares.js'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
+import dashboardroute from './routes/dashboard.route.js';
+
 const app = express()
 
 app.use(morgan('dev'))
@@ -17,6 +19,7 @@ app.use(cors({ origin: FRONTEND_URL == "*" ? "*" : FRONTEND_URL?.split(","), cre
 // route
 app.use('/api/v1', routes)
 app.use(errorHandler)
+app.use('/api/v1/dashboard', dashboardRoutes)
 
 app.listen(PORT ,() => {
     console.log(`Server running on http://${HOSTNAME}:${PORT}`)
